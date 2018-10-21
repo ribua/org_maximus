@@ -1,0 +1,12 @@
+# DNS
+dns_domain_name: redhat.ribu1.com
+dns_servers:
+  - 10.0.0.6
+  - 10.0.0.138
+dns_search: tnc2.corp.telstra.com
+
+
+# Management Server FQDN:
+kvm_management_primary_fqdn: host1.redhat.ribu1.com
+satellite: satellite.redhat.ribu1.com
+

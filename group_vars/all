@@ -1,0 +1,18 @@
+# Gold Image - Stored on Host1
+gold_image_directory: "/var/lib/libvirt/images"
+gold_image_filename: "gold-image.img"
+
+# KVM
+kvm_storage_path: "/var/lib/libvirt/images"
+kvm_backup_path: "/var/lib/libvirt/backups"
+kvm_gold_image: "/var/lib/libvirt/images/{{ gold_image_filename }}"
+rhel_base_image: "/var/lib/libvirt/images/{{ rhel_image_filename }}"
+
+# Groups to be created for Testing team
+
+users:
+  - platform-test1:
+       comment: Platform Robot Accounts For Testing
+       password: '$6$Y.NOK/TIRJdq5sQG$PlecPGVptwHCTn/1fzA0EN8SCmCxIAR8.klzjkm.Yk8pzrn6GQDURrlPPDIa/XM240X5b.IUDeWWmAHI91wK.0'
+       groups: platform-test1
+
