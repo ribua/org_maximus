@@ -1,0 +1,37 @@
+- name: VIM Deploy | Add the KVM Hosts to the Inventory
+  hosts: localhost
+  vars_files:
+    - "group_vars/all"
+    - "group_vars/{{ vim_name }}/common.yml"
+  tasks:
+    - add_host:
+        name: "{{ item.value.fqdn }}"
+        groups: management_kvm_hosts
+        ip: "{{ item.value.ip }}"
+        netmask: "{{ item.value.netmask }}"
+        gateway: "{{ item.value.gateway }}"
+      with_dict: "{{ management_servers }}"
+      changed_when: false
+      tags:
+        - always
+      with_items:
+        - "{{ management_servers.primary.fqdn }}"
+
+
+- name: VIM Deploy | Create Virtual Machines on the Management Hosts 
+  hosts: management_kvm_hosts 
+  become: true
+  become_user: root
+  environment:
+    LIBGUESTFS_BACKEND: direct 
+  vars:
+    ansible_ssh_pipelining: true
+  vars_files:
+    - "group_vars/all"    
+    - "group_vars/{{ vim_name }}/common.yml"
+    - "group_vars/{{ vim_name }}/kvm.yml"
+  roles:
+    - kvm-create-mgmt-vms
+  tags:
+    - kvm-vms-mgmt
+
