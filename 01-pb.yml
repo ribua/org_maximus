@@ -14,8 +14,6 @@
       changed_when: false
       tags:
         - always
-      with_items:
-        - "{{ management_servers.primary.fqdn }}"
 
 
 - name: VIM Deploy | Create Virtual Machines on the Management Hosts 
