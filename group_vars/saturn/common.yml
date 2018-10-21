@@ -5,8 +5,51 @@ dns_servers:
   - 10.0.0.138
 dns_search: tnc2.corp.telstra.com
 
+# External Network
+external_network: 10.0.0.0
+external_netmask: 255.255.255.0
+external_gateway: 10.0.0.138
+
 
 # Management Server FQDN:
 kvm_management_primary_fqdn: host1.redhat.ribu1.com
 satellite: satellite.redhat.ribu1.com
+guest1: guest1.redhat.ribu1.com
+guest2: guest2.redhat.ribu1.com
+guest3: guest3.redhat.ribu1.com
+
+# Virtual and Physical Server Basic Information
+management_servers:
+  primary:
+    fqdn: "{{ kvm_management_primary_fqdn }}"
+    ip: 10.0.0.20
+    netmask: "{{ external_netmask }}"
+    gateway: "{{ external_gateway }}"
+    activation_key: "{{ rhel_activation_key }}"
+    host_group: "hg_{{ vim_name }}_RHEL7_Physical"
+
+
+virtual_servers:
+  guest1:
+    fqdn: "{{ guest1 }}"
+    ip: 10.0.0.70
+    netmask: "{{ external_netmask }}"
+    gateway: "{{ external_gateway }}"
+    activation_key: "{{ openstack_activation_key }}"
+    host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
+  guest2:
+    fqdn: "{{ guest1 }}"
+    ip: 10.0.0.71
+    netmask: "{{ external_netmask }}"
+    gateway: "{{ external_gateway }}"
+    activation_key: "{{ openstack_activation_key }}"
+    host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
+  guest3:
+    fqdn: "{{ guest1 }}"
+    ip: 10.0.0.72
+    netmask: "{{ external_netmask }}"
+    gateway: "{{ external_gateway }}"
+    activation_key: "{{ openstack_activation_key }}"
+    host_group: "hg_{{ vim_name }}_RHEL7_Openstack"  
+
 

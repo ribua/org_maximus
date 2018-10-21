@@ -1,0 +1,119 @@
+---
+
+- name: KVM | VM Creation | Grab a list of defined VMs
+  shell: virsh list --all --name
+  changed_when: false
+  register: kvm_vm_list
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+
+- name: KVM | VM Creation | Create the Images
+  shell: |
+      {% for disk in item.value.vm_disks %}
+      {% if 'boot' in disk.name %}
+      qemu-img create -f qcow2 -b "{{ item.value.vm_source_image }}" "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" "{{ disk.size }}"
+      {% else %}
+      qemu-img create -f qcow2 "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" "{{ disk.size }}"
+      {% endif %}
+      {% endfor %}
+  with_dict: "{{ kvm_virtual_machines }}"
+  when: item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout and ansible_hostname in item.value.vm_kvm_host
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+
+- name: KVM | VM Creation | Check if Director Qcow Exists
+  stat:
+    path: "{{ kvm_storage_path}}/{{ director_fqdn.split('.')[0]}}.qcow2"
+  register: file
+  tags:
+    - deploy_vim
+    - kvm
+    - kvm_director_check
+ 
+- name: KVM | VM Creation | Increase Filesystem size "{{ item.key }}"
+  shell: |
+    virt-resize --expand /dev/sda1 "{{ rhel_base_image }}" "{{ item.value.vm_disks }}"
+  with_dict: "{{ kvm_virtual_machines }}"
+  when:
+   - item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout
+   - ansible_hostname in item.value.vm_kvm_host
+   - file.stat.exists == true
+
+
+- name: KVM | VM Creation | Prepare the Images      
+  shell: |
+      {% for disk in item.value.vm_disks %}
+      {% if 'boot' in disk.name %}
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "hostnamectl set-hostname {{ item.value.vm_fqdn }}"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo {{ item.value.vm_fqdn }} >/etc/hostname"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo > /etc/sysconfig/network-scripts/ifcfg-eth0"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command 'echo DEVICE="eth0"  >> /etc/sysconfig/network-scripts/ifcfg-eth0'
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command 'echo ONBOOT="yes"  >> /etc/sysconfig/network-scripts/ifcfg-eth0'
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command 'echo NM_CONTROLLED="no"  >> /etc/sysconfig/network-scripts/ifcfg-eth0'      
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command 'echo TYPE="Ethernet"  >> /etc/sysconfig/network-scripts/ifcfg-eth0'
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command 'echo IPV6INIT="no"  >> /etc/sysconfig/network-scripts/ifcfg-eth0'
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo IPADDR={{ item.value.vm_ip }}  >> /etc/sysconfig/network-scripts/ifcfg-eth0"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo NETMASK={{ item.value.vm_netmask }} >> /etc/sysconfig/network-scripts/ifcfg-eth0"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo GATEWAY={{ item.value.vm_gateway }} >> /etc/sysconfig/network-scripts/ifcfg-eth0"
+      {% endif %}
+      {% endfor %}          
+  with_dict: "{{ kvm_virtual_machines }}"
+  when: item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout and ansible_hostname in item.value.vm_kvm_host
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+
+- name: KVM | VM Creation | Insert Ansible SSH Key if we are not using a gold image
+  shell: |
+      {% for disk in item.value.vm_disks %}
+      {% if 'boot' in disk.name %}
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --uninstall cloud-init
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "sed -i s/^SELINUX=.*$/SELINUX=permissive/ /etc/selinux/config"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "useradd ansible --create-home --password '$1$7o.RlkmQ$oYo5b4x5.UJs9Vv5D0SbU.'"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "usermod --groups wheel ansible"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "mkdir -p /home/ansible/.ssh"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "echo 'ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDANX2mnUjWKf6FxGP82E2LJlEINmUmySUkjJ8UFwq/8FCLZGrWWLs11Jp93rOUhg1V+ujMZ+b2rkPw97MYoy410/6sbxuJLeOzrxy+LnQ+8YxyBvQA5ZksHHexPcfwAG5vzHhPWJiFICUyTW53U6XsZWuRUMnevkM/IP8NCBj+r7iqvjVEqqRoOONXzt8gtvcvaI01mtJnBHlWR78BXvYVeKMXKfReeY1eLuvNS1s0bQX/1PArVfxrMBgrw+Pdcv7sGb1VAKS2A4EU9F3cQ3n5uz+NsBz1vmMi760OSAk5mx7I7s+hu2xzsJ7sRAd1HuCpCfktJv/WXCuuKAkcv/Sz Ansible Robot Account SSH Key' >> /home/ansible/.ssh/authorized_keys"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "chmod 600 /home/ansible/.ssh/authorized_keys"
+      virt-customize -a "{{ kvm_storage_path }}/{{ disk.name }}.qcow2" --run-command "chown -R ansible /home/ansible/.ssh"
+      {% endif %}
+      {% endfor %}
+  with_dict: "{{ kvm_virtual_machines }}"
+  when: item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout and ansible_hostname in item.value.vm_kvm_host and item.value.vm_source_image != kvm_gold_image 
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+ 
+- name: KVM | VM Creation | Define the VMs
+  shell: virt-install --memory {{ item.value.vm_ram }} --vcpus {{ item.value.vm_cpu }} --os-variant rhel7 
+      --import --noautoconsole --vnc --name {{ item.value.vm_fqdn.split('.')[0] }} 
+      {% for network in item.value.vm_networks %}
+      --network network={{ network.name }},portgroup={{ network.portgroup }},virtualport_type=openvswitch
+      {% endfor %}
+      {% for disk in item.value.vm_disks %}
+      --disk path={{ kvm_storage_path }}/{{ disk.name }}.qcow2,device=disk,bus=virtio,format=qcow2 
+      {% endfor %}
+  with_dict: "{{ kvm_virtual_machines }}"
+  when: item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout and ansible_hostname in item.value.vm_kvm_host
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+
+
+- name: KVM | VM Creation | Assign VM's for AutoStart
+  virt:
+    name: "{{ item.value.vm_fqdn.split('.')[0] }}"
+    autostart: yes
+  with_dict: "{{ kvm_virtual_machines }}"
+  when: item.value.vm_fqdn.split('.')[0] in kvm_vm_list.stdout and ansible_hostname in item.value.vm_kvm_host
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+   

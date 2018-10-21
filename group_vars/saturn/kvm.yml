@@ -1,0 +1,16 @@
+kvm_virtual_machines:
+  guest11:
+    vm_fqdn: "{{ virtual_servers.guest1.fqdn }}" 
+    vm_ip: "{{ virtual_servers.guest1.ip }}"
+    vm_netmask: "{{ virtual_servers.guest1.netmask }}"
+    vm_gateway: "{{ virtual_servers.guest1.gateway }}"
+    vm_networks:
+      - name: br0 # Provisioning
+    vm_cpu: 2
+    vm_ram: 8096
+    vm_disks:
+      - name: "{{ virtual_servers.guest1.fqdn.split('.')[0] }}-boot"
+        size: 15G
+    vm_kvm_host: "{{ management_servers.primary.fqdn }}" 
+    vm_source_image: "{{ rhel_base_image }}"
+
