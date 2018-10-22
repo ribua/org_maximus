@@ -6,7 +6,7 @@ gold_image_filename: "gold-image.qcow2"
 kvm_storage_path: "/var/lib/libvirt/images"
 kvm_backup_path: "/var/lib/libvirt/backups"
 kvm_gold_image: "/var/lib/libvirt/images/{{ gold_image_filename }}"
-#rhel_base_image: "/var/lib/libvirt/images/{{ rhel_image_filename }}"
+#llrhel_base_image: "/var/lib/libvirt/images/{{ rhel_image_filename }}"
 
 # Groups to be created for Testing team
 
