@@ -33,6 +33,9 @@
     - deploy_vim
     - kvm
  
+- debug:
+    var: file.stat.path
+
 - name: KVM | VM Creation | Increase Filesystem size of guest1 
   shell: |
     virt-resize --expand /dev/sda2 "{{ kvm_gold_image }}"  "{{ kvm_storage_path}}/{{ guest1_fqdn.split('.')[0]}}-boot.qcow2" 
