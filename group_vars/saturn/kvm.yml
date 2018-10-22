@@ -1,5 +1,5 @@
 kvm_virtual_machines:
-  guest11:
+  guest1:
     vm_fqdn: "{{ virtual_servers.guest1.fqdn }}" 
     vm_ip: "{{ virtual_servers.guest1.ip }}"
     vm_netmask: "{{ virtual_servers.guest1.netmask }}"
@@ -23,7 +23,7 @@ kvm_virtual_machines:
     vm_cpu: 2
     vm_ram: 8096
     vm_disks:
-      - name: "{{ virtual_servers.guest1.fqdn.split('.')[0] }}-boot"
+      - name: "{{ virtual_servers.guest2.fqdn.split('.')[0] }}-boot"
         size: 15G
     vm_kvm_host: "{{ management_servers.primary.fqdn }}" 
     vm_source_image: "{{ kvm_gold_image }}"
