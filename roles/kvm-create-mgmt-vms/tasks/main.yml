@@ -25,23 +25,22 @@
     - kvm
     - vm_create
 
-#- name: KVM | VM Creation | Check if Director Qcow Exists
-#  stat:
-#    path: "{{ kvm_storage_path}}/{{ director_fqdn.split('.')[0]}}.qcow2"
-#  register: file
-#  tags:
-#    - deploy_vim
-#    - kvm
-#    - kvm_director_check
+- name: KVM | VM Creation | Check if guest1  Qcow Exists
+  stat:
+    path: "{{ kvm_storage_path}}/{{ guest1.split('.')[0]}}.qcow2"
+  register: file
+  tags:
+    - deploy_vim
+    - kvm
  
-#- name: KVM | VM Creation | Increase Filesystem size "{{ item.key }}"
-#  shell: |
-#    virt-resize --expand /dev/sda1 "{{ rhel_base_image }}" "{{ item.value.vm_disks }}"
-#  with_dict: "{{ kvm_virtual_machines }}"
-#  when:
-#   - item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout
-#   - ansible_hostname in item.value.vm_kvm_host
-#   - file.stat.exists == true
+- name: KVM | VM Creation | Increase Filesystem size of guest1 
+  shell: |
+    virt-resize --expand /dev/sda1 "{{ rhel_base_image }}" "{{ item.value.vm_disks }}"
+  with_dict: "{{ kvm_virtual_machines }}"
+  when:
+   - item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout
+   - ansible_hostname in item.value.vm_kvm_host
+   - file.stat.exists == true
 
 
 - name: KVM | VM Creation | Prepare the Images      
