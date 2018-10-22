@@ -13,5 +13,5 @@
 - name: OS | Debug | Operation if guest exists
   shell: touch /tmp/test123
   when:
-    - kvm_vm_list.stdout.find('satell...') == -1
+    - kvm_vm_list.stdout.find('satell...')! == -1
 
