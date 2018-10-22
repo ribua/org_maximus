@@ -38,14 +38,14 @@ virtual_servers:
 #    activation_key: "{{ openstack_activation_key }}"
     host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
   guest2:
-    fqdn: "{{ guest1 }}"
+    fqdn: "{{ guest2 }}"
     ip: 10.0.0.71
     netmask: "{{ external_netmask }}"
     gateway: "{{ external_gateway }}"
 #    activation_key: "{{ openstack_activation_key }}"
     host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
   guest3:
-    fqdn: "{{ guest1 }}"
+    fqdn: "{{ guest3 }}"
     ip: 10.0.0.72
     netmask: "{{ external_netmask }}"
     gateway: "{{ external_gateway }}"
