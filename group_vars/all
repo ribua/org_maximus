@@ -1,6 +1,6 @@
 # Gold Image - Stored on Host1
 gold_image_directory: "/var/lib/libvirt/images"
-gold_image_filename: "gold-image.img"
+gold_image_filename: "gold-image.qcow2"
 
 # KVM
 kvm_storage_path: "/var/lib/libvirt/images"
