@@ -13,10 +13,10 @@ external_gateway: 10.0.0.138
 
 # Management Server FQDN:
 kvm_management_primary_fqdn: host1.redhat.ribu1.com
-satellite: satellite.redhat.ribu1.com
-guest1: guest1.redhat.ribu1.com
-guest2: guest2.redhat.ribu1.com
-guest3: guest3.redhat.ribu1.com
+satellite_fqdn: satellite.redhat.ribu1.com
+guest1_fqdn: guest1.redhat.ribu1.com
+guest2_fqdn: guest2.redhat.ribu1.com
+guest3_fqdn: guest3.redhat.ribu1.com
 
 # Virtual and Physical Server Basic Information
 management_servers:
@@ -31,21 +31,21 @@ management_servers:
 
 virtual_servers:
   guest1:
-    fqdn: "{{ guest1 }}"
+    fqdn: "{{ guest1_fqdn }}"
     ip: 10.0.0.70
     netmask: "{{ external_netmask }}"
     gateway: "{{ external_gateway }}"
 #    activation_key: "{{ openstack_activation_key }}"
     host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
   guest2:
-    fqdn: "{{ guest2 }}"
+    fqdn: "{{ guest2_fqdn }}"
     ip: 10.0.0.71
     netmask: "{{ external_netmask }}"
     gateway: "{{ external_gateway }}"
 #    activation_key: "{{ openstack_activation_key }}"
     host_group: "hg_{{ vim_name }}_RHEL7_Openstack"
   guest3:
-    fqdn: "{{ guest3 }}"
+    fqdn: "{{ guest3_fqdn }}"
     ip: 10.0.0.72
     netmask: "{{ external_netmask }}"
     gateway: "{{ external_gateway }}"

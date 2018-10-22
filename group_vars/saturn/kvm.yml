@@ -24,7 +24,7 @@ kvm_virtual_machines:
     vm_ram: 8096
     vm_disks:
       - name: "{{ virtual_servers.guest2.fqdn.split('.')[0] }}-boot"
-        size: 15G
+        size: 10G
     vm_kvm_host: "{{ management_servers.primary.fqdn }}" 
     vm_source_image: "{{ kvm_gold_image }}"
   guest3:
@@ -38,6 +38,6 @@ kvm_virtual_machines:
     vm_ram: 8096
     vm_disks:
       - name: "{{ virtual_servers.guest3.fqdn.split('.')[0] }}-boot"
-        size: 15G
+        size: 20G
     vm_kvm_host: "{{ management_servers.primary.fqdn }}" 
     vm_source_image: "{{ kvm_gold_image }}"
