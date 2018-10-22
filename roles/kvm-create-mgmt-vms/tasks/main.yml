@@ -34,7 +34,10 @@
     - kvm
  
 - debug:
-    var: file.stat.path
+    var: file.stat
+
+- debug:
+    var: file    
 
 - name: KVM | VM Creation | Increase Filesystem size of guest1 
   shell: |
