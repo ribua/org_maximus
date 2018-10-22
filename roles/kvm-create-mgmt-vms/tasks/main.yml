@@ -41,12 +41,12 @@
 
 - name: KVM | VM Creation | Increase Filesystem size of guest1 
   shell: |
-    virt-resize --expand /dev/sda2 "{{ kvm_gold_image }}"  "{{ kvm_storage_path}}/{{ guest1_fqdn.split('.')[0]}}-boot.qcow2" 
+    virt-resize --expand /dev/sda2 "{{ kvm_gold_image }}"  "{{ kvm_storage_path}}/{{ guest1_fqdn.split('.')[0]}}-boot.qcow2"
   with_dict: "{{ kvm_virtual_machines }}"
   when:
    - item.value.vm_fqdn.split('.')[0] not in kvm_vm_list.stdout
    - ansible_hostname in item.value.vm_kvm_host
-   - file.stat.path is defined
+   - file.stat.exists == True
 
 
 - name: KVM | VM Creation | Prepare the Images      
