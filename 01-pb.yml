@@ -29,7 +29,7 @@
     - "group_vars/{{ vim_name }}/common.yml"
     - "group_vars/{{ vim_name }}/kvm.yml"
   roles:
-    - kvm-create-mgmt-vms
+    - debug
   tags:
     - kvm-vms-mgmt
 

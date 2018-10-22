@@ -1,0 +1,17 @@
+---
+
+
+- name: KVM | VM Creation | Grab a list of defined VMs
+  shell: virsh list --all --name
+  changed_when: false
+  register: kvm_vm_list
+  tags:
+    - deploy_vim
+    - kvm
+    - vm_create
+
+- name: OS | Debug | Operation if guest exists
+  shell: touch /tmp/test123
+  when:
+    - kvm_vm_list.stdout.find('satell...') == -1
+
