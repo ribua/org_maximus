@@ -44,7 +44,7 @@
     virt-resize --expand /dev/sda2 "{{ kvm_gold_image }}"  "{{ kvm_storage_path}}/{{ guest1_fqdn.split('.')[0]}}-boot.qcow2"
   with_dict: "{{ kvm_virtual_machines }}"
   when:
-   - guest1 not in kvm_vm_list.stdout
+   - kvm_vm_list.stdout.find('guest1') == -1
    - file.stat.exists == True
 
 
