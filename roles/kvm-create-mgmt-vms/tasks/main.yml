@@ -27,7 +27,7 @@
 
 - name: KVM | VM Creation | Check if guest1  Qcow Exists
   stat:
-    path: "{{ kvm_storage_path}}/{{ guest1.split('.')[0]}}.qcow2"
+    path: "{{ kvm_storage_path}}/{{ guest1.split('.')[0]}}-boot.qcow2"
   register: file
   tags:
     - deploy_vim
