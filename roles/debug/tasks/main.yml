@@ -10,8 +10,12 @@
     - kvm
     - vm_create
 
-- name: OS | Debug | Operation if guest exists
-  shell: touch /tmp/test123
+- name: OS | Debug | Operation if satellite exists
+  shell: touch /tmp/satellite123
   when:
-    - kvm_vm_list.stdout.find('satellite') != -1
+    - kvm_vm_list.stdout.find('satellite') == -1
 
+- name: OS | Debug | Operation if guest exists
+  shell: touch /tmp/guest123
+  when:
+    - kvm_vm_list.stdout.find('guest') == -1
