@@ -1,0 +1,10 @@
+---
+
+- hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Install LAMP
+      yum:
+        name: ["wget","httpd"]
+        state: present
