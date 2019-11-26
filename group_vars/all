@@ -26,3 +26,6 @@ vpc_subnet_id: subnet-8fa7c1e7
 device_name0: /dev/sda1
 volume_size0: 10
 servername: TestServer123
+ec2_ami: ami-07d23537f44fe67c1
+ap_servername: windows_host
+winlocal_admin_pass: d3fault
