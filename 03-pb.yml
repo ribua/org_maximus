@@ -32,5 +32,9 @@
      delay: 10
      until: ec2 is not failed
 
-   - debug:
-       var: ec2
+   - name: Wait for ssh connection 
+     wait_for:
+       host: "{{ item.public_ip }}"
+       port: 22 
+       state: started 
+     loop: "{{ ec2.instances }}"
