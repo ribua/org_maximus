@@ -38,5 +38,3 @@
        port: 22
        state: started
      loop: "{{ ec2.instances }}"
-     when: volume_count == 1
-
