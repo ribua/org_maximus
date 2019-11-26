@@ -29,5 +29,5 @@ servername: TestServer123
 #ec2_ami: ami-07d23537f44fe67c1
 ec2_ami: ami-086541da748fd1b23
 ap_servername: windows_host
-winlocal_admin_pass: d3fault
+winlocal_admin_pass: F9X:8cw<!'c/D2[n
 costcode: free
