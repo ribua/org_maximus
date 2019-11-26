@@ -47,9 +47,8 @@
        group: default
        instance_type: t2.micro
        image: "{{ ec2_ami }}"
-       wait: true 
+       wait: true
        region: "{{ region }}"
-       keypair: linux-box2
        volumes:
          - device_name: "{{ device_name0 }}"
            volume_size: 30
