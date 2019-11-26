@@ -58,8 +58,7 @@
          <powershell>
          $admin = [adsi]("WinNT://./administrator, user")
          $admin.PSBase.Invoke("SetPassword", "{{ winlocal_admin_pass }}")
-         Invoke-Expression ((New-Object System.Net.Webclient).
-         DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
+         Invoke-Expression ((New-Object System.Net.Webclient).DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
          </powershell>
        vpc_subnet_id: "{{ vpc_subnet_id }}"
        instance_tags:
