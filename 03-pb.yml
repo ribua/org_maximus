@@ -16,6 +16,7 @@
        keypair: linux-box2
        count: 1
        vpc_subnet_id: "{{ vpc_subnet_id }}"
+       assign_public_ip: yes
        volumes:
          - device_name: "{{ device_name0 }}"
            volume_size: "{{ volume_size0 }}"
