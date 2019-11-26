@@ -29,3 +29,4 @@ servername: TestServer123
 ec2_ami: ami-07d23537f44fe67c1
 ap_servername: windows_host
 winlocal_admin_pass: d3fault
+costcode: free
