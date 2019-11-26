@@ -1,0 +1,44 @@
+---
+- hosts: localhost
+  connection: local
+  gather_facts: False
+
+  tasks:
+
+   - name: Launch RHEL 8.8 EC2 Instance. With base additional volume. 
+     ec2:
+       group: "{{ security_group }}"
+       instance_type: "{{ instance_type }}"
+       image: "{{ ami }}"
+       wait: true
+       region: "{{ region }}"
+       zone: "{{ zone }}"
+       keypair: linux-box2
+       count: 1
+       vpc_subnet_id: "{{ vpc_subnet_id }}"
+       volumes:
+         - device_name: "{{ device_name0 }}"
+           volume_size: "{{ volume_size0 }}"
+           delete_on_termination: true
+       user_data: | 
+          #!/usr/bin/bash
+          curl -k https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.tar.xz /tmp/linux-5.4.tar.xz
+          rm -rf /etc/redhat-release
+       instance_tags:
+         Name: "{{ servername }}"
+         DeploymentType: Ansible Tower
+     register: ec2
+     retries: 5
+     delay: 10
+     until: ec2 is not failed
+     when: volume_count == 1
+   
+
+   - name: Wait for SSH to initialise
+     wait_for:
+       host: "{{ item.private_ip }}"
+       port: 22 
+       state: started 
+     loop: "{{ ec2.instances }}"
+     when: volume_count == 1
+
