@@ -22,7 +22,6 @@
            delete_on_termination: true
        user_data: |
           #!/usr/bin/bash
-          curl -k -O https://cdn.kernel.org/pub/linux/kernel/v5.x/linux-5.4.tar.xz /tmp/linux-5.4.tar.xz
           rm -rf /etc/redhat-release
        instance_tags:
          Name: "{{ servername }}"
