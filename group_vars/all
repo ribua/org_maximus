@@ -16,3 +16,13 @@ users:
        password: '$6$Y.NOK/TIRJdq5sQG$PlecPGVptwHCTn/1fzA0EN8SCmCxIAR8.klzjkm.Yk8pzrn6GQDURrlPPDIa/XM240X5b.IUDeWWmAHI91wK.0'
        groups: platform-test1
 
+
+security_group: sg-40ae922c
+instance_type: t2.micro
+ami: ami-0b85d4ff00de6a225
+region: ca-central-1
+zone: 1
+vpc_subnet_id: subnet-8fa7c1e7
+device_name0: /dev/sda
+volume_size0: 10
+servername: TestServer
