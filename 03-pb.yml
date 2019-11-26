@@ -31,7 +31,7 @@
      retries: 5
      delay: 10
      until: ec2 is not failed
-     when: volume_count == 1
+     
    
 
    - name: Wait for SSH to initialise
