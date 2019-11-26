@@ -56,13 +56,10 @@
        count: 1
        user_data: |
          <powershell>
-         Rename-Computer -NewName "{{ ap_servername }}"
          $admin = [adsi]("WinNT://./administrator, user")
          $admin.PSBase.Invoke("SetPassword", "{{ winlocal_admin_pass }}")
-         Set-NetFirewallProfile -Profile Public,Private -Enabled False
-         Set-Item WSMan:\localhost\Client\TrustedHosts -Value * -force
-         enable-psremoting -force
-         [System.Net.ServicePointManager]::ServerCertificateValidationCallback = {$true}
+         Invoke-Expression ((New-Object System.Net.Webclient).
+         DownloadString('https://raw.githubusercontent.com/ansible/ansible/devel/examples/scripts/ConfigureRemotingForAnsible.ps1'))
          </powershell>
        vpc_subnet_id: "{{ vpc_subnet_id }}"
        instance_tags:
