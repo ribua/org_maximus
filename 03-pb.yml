@@ -7,7 +7,7 @@
 
    - name: Launch RHEL 8.8 EC2 Instance. With base additional volume. 
      ec2:
-       group: sg-07c6351bb0d99a148
+       group: launch-wizard-2
        instance_type: "{{ instance_type }}"
        image: "{{ ami }}"
        wait: true
