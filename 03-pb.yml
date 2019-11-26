@@ -10,8 +10,6 @@
        group: "{{ security_group }}"
        instance_type: "{{ instance_type }}"
        image: "{{ ami }}"
-       aws_access_key: AKIAITUKS73WZMT7CKWA
-       aws_secret_key: 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
        wait: true
        region: "{{ region }}"
        zone: "{{ zone }}"
