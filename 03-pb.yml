@@ -68,28 +68,6 @@
      delay: 10
      until: ec2win is not failed
 
-   - name: Wait for SSH to come up
-     delegate_to: "{{ item.public_dns_name }}"
-     wait_for_connection:
-        delay: 60
-        timeout: 320
-     loop: "{{ ec2win.instances }}"
-
-   - name: Register host to list
-     add_host:
-         hostname: "{{ item.public_ip }}"
-         groups: Windows
-     loop: "{{ ec2win.instances }}"
+ 
 
 
-- name: Run tasks on Windows 
-  hosts: Windows
-
-  gather_facts: False
-  tasks:
-     - name: Run netstat command
-       win_command: netstat -e
-       register: netstat
-
-     - debug:
-         var: netstat
