@@ -68,15 +68,15 @@
      delay: 10
      until: ec2win is not failed
 
-    - name: Wait for system to become reachable over WinRM
-      wait_for_connection:
-        timeout: 900
+   - name: Wait for system to become reachable over WinRM
+     wait_for_connection:
+       timeout: 900
 
-    - name: Register host to list
-      add_host:
+   - name: Register host to list
+     add_host:
          hostname: "{{ item.public_ip }}"
          groups: Windows
-      loop: "{{ ec2win.instances }}"
+     loop: "{{ ec2win.instances }}"
 
 
 - name: Run tasks on Windows 
