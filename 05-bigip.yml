@@ -5,7 +5,9 @@
   gather_facts: false
   vars:
     provider:
+      password: M@lub0ys
       server: 192.168.122.138
+      user: admin
       validate_certs: no
       server_port: 8443
   tasks:
