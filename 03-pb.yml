@@ -69,11 +69,11 @@
      until: ec2win is not failed
 
    - name: Wait for SSH to come up
-      delegate_to: "{{ item.public_dns_name }}"
-      wait_for_connection:
+     delegate_to: "{{ item.public_dns_name }}"
+     wait_for_connection:
         delay: 60
         timeout: 320
-      loop: "{{ ec2win.instances }}"
+     loop: "{{ ec2win.instances }}"
 
    - name: Register host to list
      add_host:
