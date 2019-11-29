@@ -3,12 +3,5 @@
 - hosts: all
   connection: local
   gather_facts: false
-  vars:
-    provider:
-      password: "{{ bigip_pass }}"
-      server: 192.168.122.138
-      user: admin
-      validate_certs: no
-      server_port: 8443
   roles:
      - create_pool
