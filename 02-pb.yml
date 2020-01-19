@@ -8,3 +8,9 @@
       yum:
         name: ["wget","httpd"]
         state: present
+    - name: Install package from survey
+      yum:
+        name: "{{ blah }}"
+        state: present
+
+
