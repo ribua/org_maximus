@@ -1,0 +1,17 @@
+- name: Configure BigIP pool
+  hosts: all
+  gather_facts: false
+  vars:
+    provider:
+      password: "{{ bigip_pass }}"
+      server: 192.168.122.138
+      user: admin
+      validate_certs: no
+      server_port: 8443
+  tasks:
+    - name: Register all nodes that exist on Bigip
+      bigip_device_info:
+        provider: "{{ provider }}"
+        gather_subset:
+          - interfaces
+      delegate_to: localhost
