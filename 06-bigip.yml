@@ -10,7 +10,7 @@
       server_port: 8443
   tasks:
     - name: Register all nodes that exist on Bigip
-      bigip_device_info:
+      bigip_device_facts:
         gather_subset:
           - nodes
         provider: "{{ provider }}"
