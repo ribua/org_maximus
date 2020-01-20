@@ -15,3 +15,6 @@
         gather_subset:
           - interfaces
       delegate_to: localhost
+      register: stat
+    - debug:
+        var: stat
