@@ -10,7 +10,7 @@
         state: present
     - name: Install package from survey
       yum:
-        name: "{{ blah }}"
+        name: postfix
         state: present
 
 
