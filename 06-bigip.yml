@@ -11,9 +11,9 @@
   tasks:
     - name: Register all nodes that exist on Bigip
       bigip_device_info:
-        provider: "{{ provider }}"
         gather_subset:
           - interfaces
+        provider: "{{ provider }}"
       delegate_to: localhost
       register: stat
     - debug:
