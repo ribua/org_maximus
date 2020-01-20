@@ -20,7 +20,7 @@
     - name: Create node if it doesn't exist
       bigip_node:
         host: "{{ ip }}"
-        name: "{{ name }}"
+        name: "{{ ipname }}"
         provider: "{{ provider }}"
         partition: Common
       delegate_to: localhost
@@ -39,7 +39,7 @@
        provider: "{{ provider }}"
        description: "testserver {{ ip }}"
        host: "{{ ip }}"
-       name: "{{ name }}"
+       name: "{{ ipname }}"
        pool: "{{ pname  }}"
        port: 80
 
