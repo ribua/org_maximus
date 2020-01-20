@@ -12,9 +12,33 @@
     - name: Register all nodes that exist on Bigip
       bigip_device_info:
         gather_subset:
-          - interfaces
+          - nodes
         provider: "{{ provider }}"
       delegate_to: localhost
       register: stat
-    - debug:
-        var: stat
+
+    - name: Create node if it doesn't exist
+      bigip_node:
+        host: "{{ ip }}"
+        name: "{{ name }}"
+        provider: "{{ provider }}"
+        partition: Common
+      delegate_to: localhost
+
+
+    - name: Create pool if pool doesn't exist
+      bigip_pool:
+        provider: "{{ provider }}"
+        lb_method: ratio-member
+        name: "{{ pname }}"
+        slow_ramp_time: 120
+      delegate_to: localhost
+
+    - name: Add members to pool
+      bigip_pool_member:
+       provider: "{{ provider }}"
+       description: "testserver {{ ip }}"
+       host: "{{ ip }}"
+       name: "{{ name }}"
+       pool: "{{ pname  }}"
+       port: 80
