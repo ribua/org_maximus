@@ -13,9 +13,20 @@
       bigip_device_facts:
         gather_subset:
           - nodes
+          - ltm-pools
         provider: "{{ provider }}"
       delegate_to: localhost
       register: stat
+    
+    - name: End playbook if the node/pool already exists
+      fail:
+        msg: Ending Playbook due to duplicate node/pool names
+      when: 
+        - "ipname in item.name"
+        - "pname in item.ltm_pools"
+      loop: 
+        - "{{ stat.nodes }}"
+        - "{{ stat.ltm_pools }}"
 
     - name: Create node if it doesn't exist
       bigip_node:
@@ -43,4 +54,19 @@
        pool: "{{ pname  }}"
        port: 80
 
-# adding one change
+    - name: Add virtual server addresses
+      bigip_virtual_server:
+        state: present
+        partition: Common
+        name: "{{ vname }}"
+        destination: "{{ dip }}"
+        type: "{{ type }}"
+        port: 443
+        pool: apache
+        snat: Automap
+        description: Test Virtual Server
+        provider: "{{ provider }}"
+        ip_protocol: "{{ type }}"
+        profiles:
+          - name: fastL4
+      delegate_to: localhost
