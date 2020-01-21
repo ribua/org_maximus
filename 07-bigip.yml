@@ -1,0 +1,58 @@
+- name: Delete BigIP pool
+  hosts: all
+  gather_facts: false
+  vars:
+    provider:
+      password: "{{ bigip_pass }}"
+      server: 192.168.122.138
+      user: admin
+      validate_certs: no
+      server_port: 8443
+  tasks:
+
+    - name: Delete node 
+      bigip_node:
+        host: "{{ ip }}"
+        name: "{{ ipname }}"
+        provider: "{{ provider }}"
+        partition: Common
+        state: absent
+      delegate_to: localhost
+
+
+    - name: Delete pool
+      bigip_pool:
+        provider: "{{ provider }}"
+        lb_method: ratio-member
+        name: "{{ pname }}"
+        slow_ramp_time: 120
+        state: absent
+      delegate_to: localhost
+
+    - name: Delete  members to pool
+      bigip_pool_member:
+       provider: "{{ provider }}"
+       description: "testserver" 
+       host: "{{ ip }}"
+       name: "{{ ipname }}"
+       pool: "{{ pname  }}"
+       port: 80
+       state: absent
+
+    - name: Delete virtual server addresses
+      bigip_virtual_server:
+        state: present
+        partition: Common
+        name: "{{ vname }}"
+        destination: "{{ dip }}"
+        type: "{{ type }}"
+        port: 443
+        pool: "{{ pname }}"
+        snat: Automap
+        description: Test Virtual Server
+        provider: "{{ provider }}"
+        ip_protocol: "{{ protocol }}"
+        profiles:
+          - name: fastL4
+        state: absent
+      delegate_to: localhost
