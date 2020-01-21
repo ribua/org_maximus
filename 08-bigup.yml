@@ -1,0 +1,7 @@
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Tasks completed successfully
+      debug:
+        msg: "This message indicates all process finished successfully"
