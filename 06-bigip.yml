@@ -16,8 +16,8 @@
           - ltm-pools
         provider: "{{ provider }}"
       delegate_to: localhost
+      changed_when: false
       register: stat
-    
     - name: End playbook if the node/pool already exists
       fail:
         msg: Ending Playbook due to duplicate node/pool names
