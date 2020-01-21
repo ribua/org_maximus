@@ -64,7 +64,7 @@
         destination: "{{ dip }}"
         type: "{{ type }}"
         port: 443
-        pool: apache
+        pool: "{{ pname }}"
         snat: Automap
         description: Test Virtual Server
         provider: "{{ provider }}"
