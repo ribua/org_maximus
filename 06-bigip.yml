@@ -68,7 +68,7 @@
         snat: Automap
         description: Test Virtual Server
         provider: "{{ provider }}"
-        ip_protocol: "{{ type }}"
+        ip_protocol: "{{ protocol }}"
         profiles:
           - name: fastL4
       delegate_to: localhost
