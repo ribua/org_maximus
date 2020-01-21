@@ -1,0 +1,9 @@
+---
+
+- name: Create node if it doesn't exist
+  bigip_node:
+    host: "{{ ip }}"
+    name: "{{ ipname }}"
+    provider: "{{ provider }}"
+    partition: Common
+  delegate_to: localhost

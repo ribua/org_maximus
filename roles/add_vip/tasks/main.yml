@@ -1,0 +1,17 @@
+---
+
+- name: Add virtual server addresses
+  bigip_virtual_server:
+    state: present
+    partition: Common
+    name: "{{ vname }}"
+    destination: "{{ dip }}"
+    type: "{{ type }}"
+    port: 443
+    pool: "{{ pname }}"
+    snat: Automap
+    description: Test Virtual Server
+    provider: "{{ provider }}"
+    ip_protocol: "{{ protocol }}"
+    profiles:
+      - name: fastL4

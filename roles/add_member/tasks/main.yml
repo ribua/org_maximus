@@ -1,0 +1,11 @@
+---
+
+- name: Add members to pool
+  bigip_pool_member:
+       provider: "{{ provider }}"
+       description: "testserver" 
+       host: "{{ ip }}"
+       name: "{{ ipname }}"
+       pool: "{{ pname  }}"
+       port: 443
+
