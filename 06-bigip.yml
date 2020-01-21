@@ -9,6 +9,7 @@
       validate_certs: no
       server_port: 8443
   tasks:
+
     - name: Register all nodes that exist on Bigip
       bigip_device_facts:
         gather_subset:
@@ -18,9 +19,10 @@
       delegate_to: localhost
       changed_when: false
       register: stat
+
     - name: End playbook if the node/pool already exists
-      fail:
-        msg: Ending Playbook due to duplicate node/pool names
+      meta: end_play
+     #   msg: Ending Playbook due to duplicate node/pool names
       when:
          - ipname == item.0.name
          - pname == item.1.name
