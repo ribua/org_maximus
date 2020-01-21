@@ -21,8 +21,8 @@
       register: stat
 
     - name: End playbook if the node/pool already exists
-      meta: end_play
-     #   msg: Ending Playbook due to duplicate node/pool names
+      fail: end_play
+        msg: Ending Playbook due to duplicate node/pool names
       when:
          - ipname == item.0.name
          - pname == item.1.name
