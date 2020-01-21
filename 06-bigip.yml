@@ -21,12 +21,14 @@
     - name: End playbook if the node/pool already exists
       fail:
         msg: Ending Playbook due to duplicate node/pool names
-      when: 
-        - "ipname in item.name"
-        - "pname in item.ltm_pools"
-      loop: 
-        - "{{ stat.nodes }}"
-        - "{{ stat.ltm_pools }}"
+      when:
+         - ipname == item.0.name
+         - pname == item.1.name
+      with_nested:
+          - "{{ stat2.nodes }}"
+          - "{{ stat2.ltm_pools }}"
+      loop_control:
+        label: "{{ item.0.name }}"
 
     - name: Create node if it doesn't exist
       bigip_node:
