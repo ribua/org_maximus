@@ -10,8 +10,11 @@
       user: admin
       validate_certs: no
       server_port: 8443
-  pre_tasks:
-    - name: Register F5 Facts for node/pool
+    pool_name: []
+    node_name: []
+
+  tasks:
+    - name: Register facts for F5 device
       bigip_device_facts:
         gather_subset:
           - nodes
@@ -20,16 +23,27 @@
       delegate_to: localhost
       changed_when: false
       register: stat
-  roles:
-     - create_pool
-     - create_node
-     - add_member
-     - add_vip
-   when:
-         - ipname == item.0.name
-         - pname == item.1.name
+
+    - name: Set facts for existing pools and node names. 
+      set_fact:
+        pool_name: "{{ pool_name}} + [ '{{  item.0.name }}' ]"
+        node_name: "{{ node_name }}  + [ '{{item.1.name }}' ]"
       with_nested:
-          - "{{ stat.nodes }}"
-          - "{{ stat.ltm_pools }}"
+        - "{{ stat.ltm_pools }}"
+        - "{{ stat.nodes }}"
       loop_control:
         label: "{{ item.0.name }}"
+
+    - name: Run the roles only if pools and nodes are not existing
+      block:
+       - include_role:
+           name: create_pool
+       - include_role:
+           name: create_node
+       - include_role:
+           name: add_member
+       - include_role:
+           name: add_vip
+      when:
+       - pname not in pool_name
+       - nname not in node_name
