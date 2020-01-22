@@ -15,3 +15,6 @@
     ip_protocol: "{{ protocol }}"
     profiles:
       - name: fastL4
+  when: type is search("perfomance-l4")
+
+  
