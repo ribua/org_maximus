@@ -7,7 +7,7 @@
     name: "{{ vname }}"
     destination: "{{ dip }}"
     type: "{{ type }}"
-    port: 443
+    port: "443"
     pool: "{{ pname }}"
     snat: Automap
     description: Test Virtual Server
@@ -25,7 +25,7 @@
     name: "{{ vname }}"
     destination: "{{ dip }}"
     type: "{{ type }}"
-    port: 443
+    port: "443"
     pool: "{{ pname }}"
     snat: Automap
     description: Test Virtual Server
