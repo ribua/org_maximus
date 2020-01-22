@@ -10,8 +10,26 @@
       user: admin
       validate_certs: no
       server_port: 8443
+  pre_tasks:
+    - name: Register F5 Facts for node/pool
+      bigip_device_facts:
+        gather_subset:
+          - nodes
+          - ltm-pools
+        provider: "{{ provider }}"
+      delegate_to: localhost
+      changed_when: false
+      register: stat
   roles:
      - create_pool
      - create_node
      - add_member
      - add_vip
+   when:
+         - ipname == item.0.name
+         - pname == item.1.name
+      with_nested:
+          - "{{ stat.nodes }}"
+          - "{{ stat.ltm_pools }}"
+      loop_control:
+        label: "{{ item.0.name }}"
