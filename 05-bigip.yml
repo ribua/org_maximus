@@ -46,4 +46,4 @@
            name: add_vip
       when:
        - pname not in pool_name
-       - ipname not in node_name
+       - nname not in node_name
