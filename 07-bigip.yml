@@ -33,14 +33,14 @@
     - name: Delete  members to pool
       bigip_pool_member:
        provider: "{{ provider }}"
-       description: "testserver" 
+       description: "testserver"
        host: "{{ ip }}"
        name: "{{ ipname }}"
        pool: "{{ pname  }}"
        port: 80
        state: absent
 
-    - name: Delete node 
+    - name: Delete node
       bigip_node:
         host: "{{ ip }}"
         name: "{{ ipname }}"
