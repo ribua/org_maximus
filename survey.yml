@@ -17,6 +17,6 @@
          project: "Git hub"
          playbook: "05-bigip.yml"
          state: "present"
-         tower_config_file: "~/tower_cli.cfg"
+  #       tower_config_file: "~/tower_cli.cfg"
          survey_enabled: yes
          survey_spec: "{{ lookup('file', 'my_survey.json') }}"
