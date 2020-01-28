@@ -10,14 +10,15 @@
   tasks:
     - template:
         src: issue.j2
-        dest: issue.json
+        dest: /tmp/issue.json
+
     - name: "Ping module to be added"
       uri:
         url: https://192.168.122.191/api/v2/job_templates/12/survey_spec/
         user: admin
         password: redhat
         method: POST
-        body: "{{ lookup('file','issue.json') }}"
+        body: "{{ lookup('file','/tmp/issue.json') }}"
         force_basic_auth: yes
         status_code: 200
         body_format: json
