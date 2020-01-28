@@ -16,6 +16,7 @@
          inventory: "Local"
          project: "Git hub"
          playbook: "05-bigip.yml"
+         name: "Simple Survey"
          state: "present"
   #       tower_config_file: "~/tower_cli.cfg"
          survey_enabled: yes
