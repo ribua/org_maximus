@@ -1,0 +1,12 @@
+{
+	"spec": [{
+		"index": 0,
+		"required": true,
+		"max": 3,
+		"question_name": "What is your password?",
+		"variable": "secret_value",
+		"type": "password"
+	}],
+	"description": "A survey",
+	"name": "my survey"
+}

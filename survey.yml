@@ -10,14 +10,13 @@
       server_port: 8443
 
   tasks:
-    - name: "Ping"
-      tower_job_template:
-         job_type: "run"
-         inventory: "Local"
-         project: "Git hub"
-         playbook: "05-bigip.yml"
-         name: "Simple Survey"
-         state: "present"
-  #       tower_config_file: "~/tower_cli.cfg"
-         survey_enabled: yes
-         survey_spec: "{{ lookup('file', 'my_survey.json') }}"
+    - name: "Ping module to be added"
+      uri:
+        url: https://192.168.122.191/api/v2/job_templates/12/survey_spec/
+        user: admin
+        password: redhat
+        method: POST
+        body: "{{ lookup('file','issue.json') }}"
+        force_basic_auth: yes
+        status_code: 201
+        body_format: json
