@@ -7,7 +7,7 @@
 		"question_name": "What is your password?",
 		"variable": "secret_value",
 		"type": "multiselect",
-                "choices": "choice1/choice2/choice3"
+                "choices": "choice1/choice2/{{ create.json.info.0.value}}"
 	}],
 	"description": "A survey",
 	"name": "my survey"

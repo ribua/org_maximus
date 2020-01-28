@@ -2,12 +2,10 @@
 - hosts: all
   gather_facts: false
   vars:
-    provider:
-      password: "{{ bigip_pass }}"
-      server: 192.168.122.138
-      user: admin
-      validate_certs: no
-      server_port: 8443
+   create:
+      json:
+        info:
+          - {key: 'key_1', value: '8308a020-5c9d-4936-8f1a-40f408d3a085'}
 
   tasks:
     - name: "Ping module to be added"
