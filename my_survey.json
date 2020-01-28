@@ -1,0 +1,15 @@
+ "name":"",
+    "description":"",
+    "spec": [
+        {
+            "question_name":"Test - added via tasks",
+            "question_description":"",
+            "required":true,
+            "type":"multiselect",
+            "variable":"my_var",
+            "min":null,
+            "max":null,
+            "default":"choice1",
+            "choices":"choice1\nchoice2\nchoice3",
+            "new_question":true
+
