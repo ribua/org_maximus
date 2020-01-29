@@ -1,0 +1,13 @@
+---
+
+- hosts: all 
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Sync configuration from most recent device to the current host 
+      bigip_configsync_action:
+        device_group: "{{ dev_group }}"
+        sync_most_recent_to_device: yes
+        provider: "{{ provider }}"
+        
+
