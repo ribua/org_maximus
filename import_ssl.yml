@@ -1,0 +1,18 @@
+---
+
+- hosts: all 
+  connection: local
+
+  gather_facts: false
+  vars: 
+   csr: []
+   crt: []
+   key: []
+  tasks:
+    - bigip_ssl_key:
+        name: f5-device-imported
+        state: present
+        content: "{{ key }}"
+        provider: "{{ provider }}"
+      delegate_to: localhost
+
