@@ -14,7 +14,7 @@
         state: present
         content: "{{ key }}"
         provider: "{{ provider }}"
-        partition: Common
+        partition: T-dev
       delegate_to: localhost
 
     - name: Use a file lookup to import PEM Certificate
@@ -23,7 +23,7 @@
         state: present
         content: "{{ crt }}"
         provider: "{{ provider }}"
-        partition: Common
+        partition: T-dev
       delegate_to: localhost
 
     - name: Create SSL Client profile 
@@ -34,5 +34,5 @@
          - cert: f5-device-imported
            key: f5-device-imported
         provider: "{{ provider }}"
-        partition: Common
+        partition: T-dev
       delegate_to: localhost
