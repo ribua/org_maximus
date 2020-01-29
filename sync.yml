@@ -7,7 +7,5 @@
     - name: Sync configuration from most recent device to the current host 
       bigip_configsync_action:
         device_group: "{{ dev_group }}"
-        sync_most_recent_to_device: yes
+        sync_device_to_group: yes
         provider: "{{ provider }}"
-        
-
