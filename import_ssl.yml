@@ -16,3 +16,20 @@
         provider: "{{ provider }}"
       delegate_to: localhost
 
+    - name: Use a file lookup to import PEM Certificate
+      bigip_ssl_certificate:
+        name: f5-device-imported
+        state: present
+        content: "{{ crt }}"
+        provider: "{{ provider }}"
+      delegate_to: localhost
+
+    - name: Create SSL Client profile 
+      bigip_profile_client_ssl:
+        state: present
+        name: my_profile-imported
+        cert_key_chain:
+         - cert: f5-device-imported
+           key: f5-device-imported
+        provider: "{{ provider }}"
+      delegate_to: localhost
