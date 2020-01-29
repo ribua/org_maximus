@@ -11,5 +11,3 @@
 
      - debug:
          var: netstat
-
-         

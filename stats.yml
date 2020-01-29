@@ -1,0 +1,16 @@
+---
+
+- hosts: all 
+  connection: local
+
+  gather_facts: false
+
+  tasks:
+    - name: Register facts for F5 device
+      bigip_device_facts:
+        gather_subset:
+          - ltm-pools
+        provider: "{{ provider }}"
+      register: blah
+
+    - debug: var=blah
