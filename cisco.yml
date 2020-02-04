@@ -1,0 +1,18 @@
+---
+
+- hosts: all
+  gather_facts: false
+
+  vars: 
+    cli: 
+     host: "{{ inventory_hostname }}"
+     username: admin
+     password: d3fault
+     authorize: yes
+
+  tasks: 
+    - asa_command:
+       commands:
+         - show version
+      register: stat
+    - debug: var=stat

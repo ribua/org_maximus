@@ -1,0 +1,10 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - set_fact:
+         ip_addr: "{{ ip | ipaddr(net) }}"
+
+    - debug: var=ip_addr

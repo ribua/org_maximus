@@ -1,0 +1,18 @@
+---
+
+- hosts: netapp
+
+  gather_facts: false
+  
+  tasks:
+    - name: Create CIFS share
+      na_ontap_cifs:
+         state: present
+         share_name: cifsShareName
+         path: /
+         vserver: vserverName
+         share_properties: browsable,oplocks
+         symlink_properties: read_only,enable
+         hostname: "{{ netapp_hostname }}"
+         username: "{{ netapp_username }}"
+         password: "{{ netapp_password }}"
