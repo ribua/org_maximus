@@ -1,0 +1,14 @@
+---
+
+- hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - uri: 
+       url: https://www.google.com
+       method: get
+       status_code: 200
+      register: content
+
+    - debug: 
+        var: content

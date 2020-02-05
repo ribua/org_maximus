@@ -1,0 +1,15 @@
+---
+
+- hosts: samba
+  become: true
+  become_user: root
+
+  tasks:
+    - name: Mount on remote server 
+      shell: mount -v -t cifs -o user=ribu,password=redhat //192.168.122.55/mnt /home/ribu/blah/
+
+    - shell: ls
+      register: stat
+
+    - debug: var=stat
+      
