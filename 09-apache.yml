@@ -1,4 +1,5 @@
 - hosts: all
-  tasks:
-   - import_role:
-       name: thinkphp_tech.thinkphp.apache
+  vars_files:
+    - vars/main.yml
+  roles:
+    - { role: geerlingguy.php_roles.php }
