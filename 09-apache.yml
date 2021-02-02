@@ -1,3 +1,4 @@
 - hosts: all
-  roles:
-    - { role: thinkphp_tech.apache }
+  tasks:
+   - import_role:
+       name: thinkphp_tech.thinkphp.apache
