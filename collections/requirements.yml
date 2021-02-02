@@ -1,6 +1,5 @@
 collections:
-  - name: 
-     - thinkphp_tech.thinkphp
-     - geerlingguy.php_roles
+     - name: thinkphp_tech.thinkphp
+     - name: geerlingguy.php_roles
    
 
